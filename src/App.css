@@ -1,38 +1,127 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+h2,
+label {
+  color: #f5c518;
+}
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  background-color: #000;
+  color: white;
   min-height: 100vh;
+  width: 100vw;
+  padding: 40px 0;
+  font-size: 18px;
+}
+form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+form label {
+  margin-bottom: 4px;
+}
+form input {
+  background-color: rgb(34, 34, 34);
+  border: 1px solid rgb(67, 67, 67);
+  outline: none;
+  height: 24px;
   color: white;
+  margin-bottom: 8px;
+  padding: 4px;
+  border-radius: 2px;
 }
-
-.App-link {
-  color: #61dafb;
+button {
+  background-color: rgb(49, 49, 49);
+  color: rgb(87, 153, 239);
+  border: 1px solid rgb(67, 67, 67);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+form button {
+  height: 20px;
+  padding: 0 4px;
+  margin: 4px auto 0 auto;
+}
+button:hover {
+  background-color: rgb(69, 69, 69);
+}
+.DataInput {
+  width: 500px;
+  margin: 0 auto;
+  border: 1px solid rgb(82, 82, 82);
+  padding: 20px;
+  border-radius: 2px;
+}
+.DataInput h2 {
+  text-decoration: underline;
+  margin-bottom: 20px;
+}
+.DataInput button {
+  margin-top: 12px;
+}
+.DataOutput {
+  width: 500px;
+  margin: 0 auto;
+  border: 1px solid rgb(82, 82, 82);
+  padding: 20px;
+  border-radius: 2px;
+  margin-top: 20px;
+}
+.DataOutput__card {
+  border: 1px solid rgb(24, 24, 24);
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  min-height: 150px;
+  padding: 20px;
+  overflow: hidden;
+}
+.DataOutput__card--details {
+  padding-right: 20px;
+}
+.DataOutput__card--details div {
+  display: flex;
+}
+.DataOutput__card--details div:not(:last-child) {
+  margin-bottom: 11px;
+}
+.DataOutput__card span {
+  color: #f5c518;
+  min-width: 110px;
+}
+.DataOutput__card--options {
+  display: flex;
+  justify-content: space-between;
+  height: 20px;
+}
+.DataOutput__card--options button {
+  padding: 0 4px;
+}
+.DataOutput__card--options button:not(:last-child) {
+  margin-right: 18px;
+}
+.DataOutput__editing {
+  border: 1px solid rgb(24, 24, 24);
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(24, 24, 24);
+}
+.DataOutput__editing form {
+  padding: 20px;
+}
+.DataOutput__editing--option {
+  display: flex;
+}
+.DataOutput__editing--option label {
+  min-width: 110px;
+}
+.DataOutput__editing--option input {
+  width: 300px;
+}
+.DataOutput__editing--cancel {
+  margin-left: 20px;
 }
