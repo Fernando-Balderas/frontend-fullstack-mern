@@ -27,27 +27,17 @@ export class ListItems extends Component {
 
     async componentDidMount() {
         await axios.get('https://ancient-reaches-30470.herokuapp.com/api/books')
-            .then(res => {
-                console.log('didMount');
-                console.log(res.data);
-                this.setState({books: res.data});
-            })
+            .then(res => {this.setState({books: res.data})})
             .catch(err => console.log(err));
     }
 
     async componentDidUpdate() {
         await axios.get('https://ancient-reaches-30470.herokuapp.com/api/books')
-            .then(res => {
-                console.log('didUpdate');
-                console.log(res.data);
-                this.setState({books: res.data});
-            })
+            .then(res => {this.setState({books: res.data})})
             .catch(err => console.log(err));
     }
 
     booksList() {
-        console.log('this.state.books')
-        console.log(this.state.books)
         return this.state.books.map( (current, i) => {
             return (
                 <Book book={current} i={i} key={i}></Book>

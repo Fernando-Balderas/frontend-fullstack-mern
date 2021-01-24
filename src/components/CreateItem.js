@@ -52,7 +52,7 @@ export class CreateItem extends Component {
             description: this.state.newItemDescription,
         }
 
-        await axios.post('/api/books', newItem)
+        await axios.post('https://ancient-reaches-30470.herokuapp.com/api/books', newItem)
             .then(res => console.log(res.data))
             .catch(err => console.log(err));
 

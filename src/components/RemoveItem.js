@@ -16,7 +16,7 @@ export class RemoveItem extends Component {
     }
 
     async componentDidMount() {
-        await axios.get('/api/books')
+        await axios.get('https://ancient-reaches-30470.herokuapp.com/api/books')
             .then(res => {this.setState({books: res.data})})
             .catch(err => console.log(err));
     }
@@ -52,7 +52,7 @@ export class RemoveItem extends Component {
 
     async handleRemoveBook(id, idx) {
         const removeItem = {id: id}
-        await axios.delete('https://ancient-reaches-30470.herokuapp.com/api/books/', {data: removeItem})
+        await axios.delete('https://ancient-reaches-30470.herokuapp.com/api/books', {data: removeItem})
             .then(res => {
                 console.log(res);
                 this.onRemoveBook(idx);
