@@ -38,6 +38,8 @@ export class ListItems extends Component {
     }
 
     booksList() {
+        console.log('this.state.books')
+        console.log(this.state.books)
         return this.state.books.map( (current, i) => {
             return (
                 <Book book={current} i={i} key={i}></Book>
