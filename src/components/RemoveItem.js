@@ -15,8 +15,8 @@ export class RemoveItem extends Component {
         this.state = {books: []}
     }
 
-    componentDidMount() {
-        axios.get('/api/books')
+    async componentDidMount() {
+        await axios.get('/api/books')
             .then(res => {this.setState({books: res.data})})
             .catch(err => console.log(err));
     }

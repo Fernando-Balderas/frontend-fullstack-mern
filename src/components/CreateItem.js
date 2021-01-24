@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -44,13 +43,8 @@ export class CreateItem extends Component {
         });
     }
 
-    onSubmit(e) {
+    async onSubmit(e) {
         e.preventDefault();
-
-        console.log(`Form submited:`);
-        console.log(`Title: ${this.state.newItemTitle}`);
-        console.log(`Author: ${this.state.newItemAuthor}`);
-        console.log(`Description: ${this.state.newItemDescription}`);
 
         const newItem = {
             title: this.state.newItemTitle,
@@ -58,8 +52,7 @@ export class CreateItem extends Component {
             description: this.state.newItemDescription,
         }
 
-        // await 
-        axios.post('/api/books', newItem)
+        await axios.post('/api/books', newItem)
             .then(res => console.log(res.data))
             .catch(err => console.log(err));
 

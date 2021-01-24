@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
@@ -21,7 +23,7 @@ export class UpdateItem extends Component {
     }
 
     componentDidMount() {
-        // axios.get(`https://ancient-reaches-30470.herokuapp.com/api/books/update/${this.props.match.params.id}`, )
+        // axios.get(`https://ancient-reaches-30470.herokuapp.com/api/books/${this.props.match.params.id}`, )
         //     .then(res => {
         //         this.setState({
         //             updateItemTitle: res.data.updateItemTitle,
@@ -53,13 +55,8 @@ export class UpdateItem extends Component {
         });
     }
 
-    onSubmit(e) {
+    async onSubmit(e) {
         e.preventDefault();
-
-        console.log(`Form Update submited:`);
-        console.log(`Title: ${this.state.updateItemTitle}`);
-        console.log(`Author: ${this.state.updateItemAuthor}`);
-        console.log(`Description: ${this.state.updateItemDescription}`);
 
         const updatedItem = {
             title: this.state.updateItemTitle,
@@ -67,7 +64,7 @@ export class UpdateItem extends Component {
             description: this.state.updateItemDescription,
         }
 
-        axios.post(`https://ancient-reaches-30470.herokuapp.com/api/books/update/${this.props.match.params.id}`, updatedItem)
+        await axios.post(`https://ancient-reaches-30470.herokuapp.com/api/books/update/${this.props.match.params.id}`, updatedItem)
             .then(res => console.log(res.data))
             .catch(err => console.log(err));
         
@@ -76,7 +73,8 @@ export class UpdateItem extends Component {
 
     render() {
         return (
-            <div>
+            <Container>
+            <Col xs="8" sm="8">
                 <Form onSubmit={this.onSubmit}>
                     <h3>Update Book</h3>
                     <Form.Group controlId="formBasicTitle">
@@ -101,7 +99,8 @@ export class UpdateItem extends Component {
                         Update Book
                     </Button>
                 </Form>
-            </div>
+            </Col>
+            </Container>
         )
     }
 }

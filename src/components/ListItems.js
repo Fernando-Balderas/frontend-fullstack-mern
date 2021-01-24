@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
 import axios from 'axios';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 
 const Book = (props) => {
     return(
@@ -12,7 +12,7 @@ const Book = (props) => {
             <td>{props.book.author}</td>
             <td>{props.book.description}</td>
             <td>
-                <Link to={"/update/"+props.book._id}>Edit</Link>
+                <Button href={"/update/"+props.book._id}>Edit</Button>
             </td>
         </tr>
     )
@@ -25,14 +25,14 @@ export class ListItems extends Component {
         this.state = {books: []}
     }
 
-    componentDidMount() {
-        axios.get('/api/books')
+    async componentDidMount() {
+        await axios.get('/api/books')
             .then(res => {this.setState({books: res.data})})
             .catch(err => console.log(err));
     }
 
-    componentDidUpdate() {
-        axios.get('/api/books')
+    async componentDidUpdate() {
+        await axios.get('/api/books')
             .then(res => {this.setState({books: res.data})})
             .catch(err => console.log(err));
     }
