@@ -26,8 +26,9 @@ export class ListItems extends Component {
     }
 
     async componentDidMount() {
-        await axios.get('/api/books')
+        await axios.get('https://ancient-reaches-30470.herokuapp.com/api/books')
             .then(res => {
+                console.log('didMount');
                 console.log(res.data);
                 this.setState({books: res.data});
             })
@@ -35,8 +36,9 @@ export class ListItems extends Component {
     }
 
     async componentDidUpdate() {
-        await axios.get('/api/books')
+        await axios.get('https://ancient-reaches-30470.herokuapp.com/api/books')
             .then(res => {
+                console.log('didUpdate');
                 console.log(res.data);
                 this.setState({books: res.data});
             })
