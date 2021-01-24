@@ -27,13 +27,19 @@ export class ListItems extends Component {
 
     async componentDidMount() {
         await axios.get('/api/books')
-            .then(res => {this.setState({books: res.data})})
+            .then(res => {
+                console.log(res.data);
+                this.setState({books: res.data});
+            })
             .catch(err => console.log(err));
     }
 
     async componentDidUpdate() {
         await axios.get('/api/books')
-            .then(res => {this.setState({books: res.data})})
+            .then(res => {
+                console.log(res.data);
+                this.setState({books: res.data});
+            })
             .catch(err => console.log(err));
     }
 
