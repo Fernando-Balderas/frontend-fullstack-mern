@@ -1,71 +1,48 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
-import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
+import Books from './Books';
+import CustomPagination from './CustomPagination';
+import axios from 'axios';
 
-const Book = (props) => {
-    return(
-        <tr id={props.i}>
-            <td>{props.i+1}</td>
-            <td>{props.book.title}</td>
-            <td>{props.book.author}</td>
-            <td>{props.book.description}</td>
-            <td>
-                <Button href={"/update/"+props.book._id}>Edit</Button>
-            </td>
-        </tr>
+function ListItems() {
+
+    const [books, setBooks] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [booksPerPage] = useState(5);
+    
+    useEffect(() => {
+        const fetchBooks = async () => {
+            setLoading(true);
+            await axios.get('https://ancient-reaches-30470.herokuapp.com/api/books')
+                .then(res => {
+                    setBooks(res.data);
+                })
+                .catch(err => console.log(err));
+            setLoading(false);
+        }
+        fetchBooks();
+    }, []);
+
+    // get the current page of books
+    const indexOfLastBook = currentPage * booksPerPage;
+    const indexOfFirstBook = indexOfLastBook - booksPerPage;
+    const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
+
+    // update the number of actual page
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    }
+
+    return (
+        <Container fluid>
+            <h3>List of Books</h3>
+            <Books books={currentBooks} loading={loading} 
+                currentPage={currentPage} booksPerPage={booksPerPage} />
+            <CustomPagination booksPerPage={booksPerPage} totalBooks={books.length} 
+                paginate={paginate} currentPage={currentPage} />
+        </Container>
     )
-}
-
-export class ListItems extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {books: []}
-    }
-
-    async componentDidMount() {
-        await axios.get('https://ancient-reaches-30470.herokuapp.com/api/books')
-            .then(res => {this.setState({books: res.data})})
-            .catch(err => console.log(err));
-    }
-
-    async componentDidUpdate() {
-        await axios.get('https://ancient-reaches-30470.herokuapp.com/api/books')
-            .then(res => {this.setState({books: res.data})})
-            .catch(err => console.log(err));
-    }
-
-    booksList() {
-        return this.state.books.map( (current, i) => {
-            return (
-                <Book book={current} i={i} key={i}></Book>
-            );
-        });
-    }
-
-    render() {
-        return (
-            <Container fluid>
-                <h3>List of Books</h3>
-                <Table striped bordered hover>
-                <thead>
-                    <tr>
-                    <th>#</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Description</th>
-                    <th>Options</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    { this.booksList() }
-                </tbody>
-                </Table>
-            </Container>
-        )
-    }
 }
 
 export default ListItems

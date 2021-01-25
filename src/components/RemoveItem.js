@@ -1,86 +1,68 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
-import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
+import BooksWithRemove from './BooksWithRemove';
+import CustomPagination from './CustomPagination';
+import axios from 'axios';
 
 
-export class RemoveItem extends Component {
-    
-    constructor(props) {
-        super(props);
+function RemoveItem() {
 
-        this.handleRemoveBook = this.handleRemoveBook.bind(this);
+    const [books, setBooks] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [booksPerPage] = useState(5);
 
-        this.state = {books: []}
+    useEffect(() => {
+        const fetchBooks = async () => {
+            setLoading(true);
+            await axios.get('https://ancient-reaches-30470.herokuapp.com/api/books')
+                .then(res => {
+                    setBooks(res.data);
+                })
+                .catch(err => console.log(err));
+            setLoading(false);
+        }
+        fetchBooks();
+    }, []);
+
+    // get the current page of books
+    const indexOfLastBook = currentPage * booksPerPage;
+    const indexOfFirstBook = indexOfLastBook - booksPerPage;
+    const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
+
+    // update the number of actual page
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
     }
 
-    async componentDidMount() {
-        await axios.get('https://ancient-reaches-30470.herokuapp.com/api/books')
-            .then(res => {this.setState({books: res.data})})
-            .catch(err => console.log(err));
-    }
-
-    booksList() {
-        return this.state.books.map( (current, i) => {
-            return (
-                <tr key={i}>
-                    <td>{i+1}</td>
-                    <td>{current.title}</td>
-                    <td>{current.author}</td>
-                    <td>{current.description}</td>
-                    <td>
-                        <Button variant="danger" type="button" id='btnRemove' 
-                            onClick={
-                                e => 
-                                window.confirm("Confirm to remove this Book?") &&                    
-                                this.handleRemoveBook(current._id, i)
-                            }>Remove
-                        </Button>  
-                    </td>
-                </tr>
-            );
-        });
-    }
-
-    onRemoveBook(idx) {
-        // update the books list in state
-        const booksCopy = this.state.books.slice();
+    // remove the book in position idx and update the state books
+    const onRemoveBook = (idx) => {
+        const booksCopy = books.slice();
         booksCopy.splice(idx, 1);
-        this.setState({books: booksCopy});
+        setBooks(booksCopy);
     }
 
-    async handleRemoveBook(id, idx) {
+    // handle onclick in remove button and remove book in database
+    const handleRemoveBook = async (id, idx) => {
         const removeItem = {id: id}
         await axios.delete('https://ancient-reaches-30470.herokuapp.com/api/books', {data: removeItem})
             .then(res => {
                 console.log(res);
-                this.onRemoveBook(idx);
+                onRemoveBook(idx);
             })
             .catch(err => console.log(err));
     }
 
-    render() {
-        return (
-            <Container fluid>
-                <h3>List of Books</h3>
-                <Table striped bordered hover>
-                <thead>
-                    <tr>
-                    <th>#</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Description</th>
-                    <th>Options</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    { this.booksList() }
-                </tbody>
-                </Table>
-            </Container>
-        )
-    }
+    return (
+        <Container fluid>
+            <h3>List of Books</h3>
+            <BooksWithRemove books={currentBooks} loading={loading} 
+                currentPage={currentPage} booksPerPage={booksPerPage} 
+                handleRemoveBook={handleRemoveBook}/>
+            <CustomPagination booksPerPage={booksPerPage} totalBooks={books.length} 
+                paginate={paginate} currentPage={currentPage} />
+        </Container>
+    )
 }
 
 export default RemoveItem

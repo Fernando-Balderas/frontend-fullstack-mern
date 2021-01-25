@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react';
+import { useLocation } from "react-router-dom";
 
-export class NoMatchPath extends Component {
-  render() {
-    return (
-      <div>
-        <h3>Not found</h3>
-      </div>
-    )
-  }
+function NoMatchPath() {
+  let location = useLocation();
+  return (
+    <div>
+      <h3>Not found<code>{location.pathname}</code></h3>
+    </div>
+  )
 }
 
 export default NoMatchPath
