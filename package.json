@@ -1,7 +1,8 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "frontend-fullstack-mern",
+  "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "proxy": "https://ancient-reaches-30470.herokuapp.com",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.6",
