@@ -45,5 +45,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.1",
+    "@types/react-bootstrap": "^0.32.26",
+    "@types/react-router": "^5.1.16",
+    "@types/react-router-dom": "^5.1.8"
   }
 }
