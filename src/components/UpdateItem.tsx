@@ -54,15 +54,15 @@ const UpdateItem: React.FC<TUpdateItemProps> = (props) => {
 
     if (isNewItem) {
       axios
-        .post(
-          `https://ancient-reaches-30470.herokuapp.com/api/books/update/${id}`,
-          itemInfo
-        )
+        .post("https://ancient-reaches-30470.herokuapp.com/api/books", itemInfo)
         .then((res) => console.log(res.data))
         .catch((err) => console.log(err));
     } else {
       axios
-        .post("https://ancient-reaches-30470.herokuapp.com/api/books", itemInfo)
+        .post(
+          `https://ancient-reaches-30470.herokuapp.com/api/books/update/${id}`,
+          itemInfo
+        )
         .then((res) => console.log(res.data))
         .catch((err) => console.log(err));
     }
