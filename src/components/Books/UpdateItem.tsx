@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import axios from "axios";
+import axios from "../../helpers/axios";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
@@ -27,22 +27,18 @@ const UpdateItem: React.FC<TUpdateItemProps> = (props) => {
   const [itemAuthor, setItemAuthor] = useState("");
   const [itemDescription, setItemDescription] = useState("");
 
-  // Function to change state title value
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setItemTitle(e.target.value);
   };
 
-  // Function to change state author value
   const onChangeAuthor = (e: React.ChangeEvent<HTMLInputElement>) => {
     setItemAuthor(e.target.value);
   };
 
-  // Function to change state description value
   const onChangeDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
     setItemDescription(e.target.value);
   };
 
-  // Function to save changes in actual book
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -54,15 +50,12 @@ const UpdateItem: React.FC<TUpdateItemProps> = (props) => {
 
     if (isNewItem) {
       axios
-        .post("https://ancient-reaches-30470.herokuapp.com/api/books", itemInfo)
+        .post("", itemInfo)
         .then((res) => console.log(res.data))
         .catch((err) => console.log(err));
     } else {
       axios
-        .post(
-          `https://ancient-reaches-30470.herokuapp.com/api/books/update/${id}`,
-          itemInfo
-        )
+        .post(`/update/${id}`, itemInfo)
         .then((res) => console.log(res.data))
         .catch((err) => console.log(err));
     }
@@ -82,7 +75,7 @@ const UpdateItem: React.FC<TUpdateItemProps> = (props) => {
             <Form.Label>Title</Form.Label>
             <Form.Control
               type="text"
-              placeholder="New Book Title"
+              placeholder="Book Title"
               value={itemTitle}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 onChangeTitle(e)
@@ -93,7 +86,7 @@ const UpdateItem: React.FC<TUpdateItemProps> = (props) => {
             <Form.Label>Author</Form.Label>
             <Form.Control
               type="text"
-              placeholder="New Book Author"
+              placeholder="Book Author"
               value={itemAuthor}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 onChangeAuthor(e)
@@ -105,7 +98,7 @@ const UpdateItem: React.FC<TUpdateItemProps> = (props) => {
             <Form.Control
               as="textarea"
               rows={2}
-              placeholder="New Book Description"
+              placeholder="Book Description"
               value={itemDescription}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 onChangeDescription(e)

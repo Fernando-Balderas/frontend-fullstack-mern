@@ -1,7 +1,6 @@
 import React from "react";
 import Pagination from "react-bootstrap/Pagination";
-
-type TFnPaginate = (pageNumber: number) => void;
+import { TFnPaginate, TFnPaginateDefault } from "../interfaces/book";
 
 type TCustomPaginationProps = {
   totalBooks: number;
@@ -14,7 +13,7 @@ const CustomPaginationDefaults = {
   totalBooks: 1,
   currentPage: 1,
   booksPerPage: 1,
-  paginate: (pageNumber: number) => {},
+  paginate: TFnPaginateDefault,
 };
 
 const CustomPagination: React.FC<TCustomPaginationProps> = (props) => {
