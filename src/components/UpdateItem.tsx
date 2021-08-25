@@ -57,6 +57,7 @@ const UpdateItem: React.FC<TUpdateItemProps> = (props) => {
         .post("https://ancient-reaches-30470.herokuapp.com/api/books", itemInfo)
         .then((res) => console.log(res.data))
         .catch((err) => console.log(err));
+      // TODO: Fix not showing new element
     } else {
       axios
         .post(
