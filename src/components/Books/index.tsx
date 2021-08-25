@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
-import BooksTable from "./BooksTable";
-import CustomPagination from "./CustomPagination";
-import axios from "axios";
-
-type TFnRemoveBook = (id: string, index: number) => void;
-type TFnPaginate = (pageNumber: number) => void;
+import BooksTable from "./Table";
+import CustomPagination from "../CustomPagination";
+import axios from "../../helpers/axios";
+import { TFnRemoveBook, TFnPaginate } from "../../interfaces/book";
 
 type TBooksProps = {
   allowDeletions: boolean;
@@ -25,12 +23,9 @@ const Books: React.FC<TBooksProps> = (props) => {
   useEffect(() => {
     const fetchBooks = async () => {
       setLoading(true);
-      await axios
-        .get("https://ancient-reaches-30470.herokuapp.com/api/books")
-        .then((res) => {
-          setBooks(res.data);
-        })
-        .catch((err) => console.log(err));
+      await axios.get("").then((res) => {
+        setBooks(res.data);
+      });
       setLoading(false);
     };
     fetchBooks();
@@ -61,7 +56,7 @@ const Books: React.FC<TBooksProps> = (props) => {
       },
     };
     axios
-      .delete("https://ancient-reaches-30470.herokuapp.com/api/books", payload)
+      .delete("", payload)
       .then((res) => {
         console.log(res);
         onRemoveBook(index);
