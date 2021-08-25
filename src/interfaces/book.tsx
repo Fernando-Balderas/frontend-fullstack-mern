@@ -4,7 +4,6 @@ export default interface IBook {
   author: string;
   description: string;
 }
-
 export const IBookDefaults = {
   _id: "",
   title: "",
@@ -12,7 +11,8 @@ export const IBookDefaults = {
   description: "",
 };
 
-export default interface IRemoveBook {
-  id: string;
-  index: number;
-}
+export type TFnRemoveBook = (id: string, index: number) => void;
+export const TFnRemoveBookDefault = (id: string, index: number) => {};
+
+export type TFnPaginate = (pageNumber: number) => void;
+export const TFnPaginateDefault = (pageNumber: number) => {};
