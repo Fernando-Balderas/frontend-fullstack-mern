@@ -7,18 +7,18 @@ type TBooksRowProps = {
   index: number;
   book: IBook;
   allowDeletions: boolean;
-  handleRemoveBook: TFnRemoveBook;
+  onRemoveBook: TFnRemoveBook;
 } & typeof BooksRowDefaults;
 
 const BooksRowDefaults = {
   index: 0,
   book: {} as IBook,
   allowDeletions: false,
-  handleRemoveBook: TFnRemoveBookDefault,
+  onRemoveBook: TFnRemoveBookDefault,
 };
 
 const BooksRow: React.FC<TBooksRowProps> = (props) => {
-  const { index, book, allowDeletions, handleRemoveBook } = props;
+  const { index, book, allowDeletions, onRemoveBook } = props;
   return (
     <tr>
       <td>{index + 1}</td>
@@ -33,7 +33,7 @@ const BooksRow: React.FC<TBooksRowProps> = (props) => {
             variant="danger"
             onClick={(e) =>
               window.confirm("Confirm to remove this Book?") &&
-              handleRemoveBook(book._id, index)
+              onRemoveBook(book._id, index)
             }
           >
             Remove

@@ -10,7 +10,7 @@ type IBooksTableProps = {
   currentPage: number;
   booksPerPage: number;
   allowDeletions: boolean;
-  handleRemoveBook: TFnRemoveBook;
+  onRemoveBook: TFnRemoveBook;
 } & typeof BooksTableDefaults;
 
 const BooksTableDefaults = {
@@ -19,7 +19,7 @@ const BooksTableDefaults = {
   currentPage: 1,
   booksPerPage: 1,
   allowDeletions: false,
-  handleRemoveBook: TFnRemoveBookDefault,
+  onRemoveBook: TFnRemoveBookDefault,
 };
 
 const BooksTable: React.FC<IBooksTableProps> = (props) => {
@@ -29,7 +29,7 @@ const BooksTable: React.FC<IBooksTableProps> = (props) => {
     currentPage,
     booksPerPage,
     allowDeletions,
-    handleRemoveBook,
+    onRemoveBook,
   } = props;
 
   if (loading) return <div>Loading...</div>;
@@ -55,7 +55,7 @@ const BooksTable: React.FC<IBooksTableProps> = (props) => {
               index={currentRowIndex + i}
               book={book}
               allowDeletions={allowDeletions}
-              handleRemoveBook={handleRemoveBook}
+              onRemoveBook={onRemoveBook}
             />
           );
         })}

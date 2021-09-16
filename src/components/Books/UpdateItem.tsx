@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import axios from "../../helpers/axios";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
@@ -18,50 +19,39 @@ type TParams = {
   id: string;
 };
 
+type TForm = {
+  title: string;
+  author: string;
+  description: string;
+};
+
 const UpdateItem: React.FC<TUpdateItemProps> = (props) => {
   const { isNewItem } = props;
   const { id } = useParams<TParams>();
   const history = useHistory();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const [itemTitle, setItemTitle] = useState("");
-  const [itemAuthor, setItemAuthor] = useState("");
-  const [itemDescription, setItemDescription] = useState("");
-
-  const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setItemTitle(e.target.value);
-  };
-
-  const onChangeAuthor = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setItemAuthor(e.target.value);
-  };
-
-  const onChangeDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setItemDescription(e.target.value);
-  };
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const onSubmit = (data: TForm) => {
     const itemInfo = {
-      title: itemTitle,
-      author: itemAuthor,
-      description: itemDescription,
+      title: data.title,
+      author: data.author,
+      description: data.description,
     };
 
     if (isNewItem) {
-      axios
-        .post("", itemInfo)
-        .then((res) => console.log(res.data))
-        .catch((err) => console.log(err));
+      axios.post("", itemInfo).then((res) => {
+        console.log(res.data);
+        // TODO: Improve create book
+      });
     } else {
       axios
         .post(`/update/${id}`, itemInfo)
-        .then((res) => console.log(res.data))
-        .catch((err) => console.log(err));
+        .then((res) => console.log(res.data));
     }
-    setItemTitle("");
-    setItemAuthor("");
-    setItemDescription("");
 
     history.push("/list");
   };
@@ -69,29 +59,35 @@ const UpdateItem: React.FC<TUpdateItemProps> = (props) => {
   return (
     <Container>
       <Col xs="8" sm="8">
-        <Form onSubmit={(e) => onSubmit(e)}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <h3>{isNewItem ? "New Book" : "Update Book"}</h3>
           <Form.Group controlId="formBasicTitle">
             <Form.Label>Title</Form.Label>
             <Form.Control
               type="text"
               placeholder="Book Title"
-              value={itemTitle}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                onChangeTitle(e)
-              }
+              {...register("title", { required: true })}
+              isInvalid={!!errors.title}
             />
+            {errors.title && (
+              <Form.Control.Feedback type="invalid">
+                This field is required
+              </Form.Control.Feedback>
+            )}
           </Form.Group>
           <Form.Group controlId="formBasicAuthor">
             <Form.Label>Author</Form.Label>
             <Form.Control
               type="text"
               placeholder="Book Author"
-              value={itemAuthor}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                onChangeAuthor(e)
-              }
+              {...register("author", { required: true })}
+              isInvalid={!!errors.author}
             />
+            {errors.author && (
+              <Form.Control.Feedback type="invalid">
+                This field is required
+              </Form.Control.Feedback>
+            )}
           </Form.Group>
           <Form.Group controlId="formBasicDescription">
             <Form.Label>Description</Form.Label>
@@ -99,11 +95,14 @@ const UpdateItem: React.FC<TUpdateItemProps> = (props) => {
               as="textarea"
               rows={2}
               placeholder="Book Description"
-              value={itemDescription}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                onChangeDescription(e)
-              }
+              {...register("description", { required: true })}
+              isInvalid={!!errors.description}
             />
+            {errors.description && (
+              <Form.Control.Feedback type="invalid">
+                This field is required
+              </Form.Control.Feedback>
+            )}
           </Form.Group>
           <Button variant="primary" type="submit">
             Submit
