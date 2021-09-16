@@ -11,6 +11,8 @@ export const IBookDefaults = {
   description: "",
 };
 
+export type TFnCreateBook = (book: IBook) => void;
+
 export type TFnRemoveBook = (id: string, index: number) => void;
 export const TFnRemoveBookDefault = (id: string, index: number) => {};
 

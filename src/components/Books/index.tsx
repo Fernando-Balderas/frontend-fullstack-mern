@@ -29,7 +29,7 @@ const Books: React.FC<TBooksProps> = (props) => {
       setLoading(false);
     };
     fetchBooks();
-  }, []);
+  }, [setBooks]);
 
   // get the current page of books
   const indexOfLastBook = currentPage * booksPerPage;
@@ -41,15 +41,17 @@ const Books: React.FC<TBooksProps> = (props) => {
     setCurrentPage(pageNumber);
   };
 
+  // const onCreateBook: TFnCreateBook = (book) => {} // TODO: Use redux to improve this
+
   // remove the book in position index and update the state books
-  const onRemoveBook = (index: number) => {
+  const removeBookFromState = (index: number) => {
     const booksCopy = books.slice();
     booksCopy.splice(index, 1);
     setBooks(booksCopy);
   };
 
   // handle onclick in remove button and remove book in database
-  const handleRemoveBook: TFnRemoveBook = (id, index) => {
+  const onRemoveBook: TFnRemoveBook = (id, index) => {
     const payload = {
       data: {
         id: id,
@@ -59,9 +61,8 @@ const Books: React.FC<TBooksProps> = (props) => {
       .delete("", payload)
       .then((res) => {
         console.log(res);
-        onRemoveBook(index);
-      })
-      .catch((err) => console.log(err));
+        removeBookFromState(index);
+      });
   };
 
   return (
@@ -73,7 +74,7 @@ const Books: React.FC<TBooksProps> = (props) => {
         currentPage={currentPage}
         booksPerPage={booksPerPage}
         allowDeletions={allowDeletions}
-        handleRemoveBook={handleRemoveBook}
+        onRemoveBook={onRemoveBook}
       />
       <CustomPagination
         totalBooks={books.length}
